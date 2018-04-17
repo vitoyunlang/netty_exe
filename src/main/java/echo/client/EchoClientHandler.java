@@ -5,9 +5,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
+    private String req;
+
+    public EchoClientHandler(String req){
+        this.req = req;
+        System.out.println("message is " +req);
+    }
+
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Client send message : Hello Netty");
-        ctx.writeAndFlush("Hello Netty");
+        System.out.println("Client send message : " +req);
+        ctx.writeAndFlush(req);
     }
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -16,6 +23,7 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("Client catch exception "+cause.getMessage());
         ctx.flush();
     }
 }
